@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>VSMemCleanup</AssemblyName>
+    <RootNamespace>VSMemCleanup</RootNamespace>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <!-- Path to the Vintage Story installation. Override with -p:VintagestoryDir=/path -->
+  <PropertyGroup>
+    <VintagestoryDir Condition="'$(VintagestoryDir)' == '' AND '$(VINTAGE_STORY)' != ''">$(VINTAGE_STORY)</VintagestoryDir>
+    <VintagestoryDir Condition="'$(VintagestoryDir)' == '' AND Exists('/opt/vintagestory/VintagestoryAPI.dll')">/opt/vintagestory</VintagestoryDir>
+    <VintagestoryDir Condition="'$(VintagestoryDir)' == '' AND Exists('$(HOME)/Vintagestory/VintagestoryAPI.dll')">$(HOME)/Vintagestory</VintagestoryDir>
+  </PropertyGroup>
+
+  <Target Name="CheckVintagestoryDir" BeforeTargets="BeforeBuild">
+    <Error Condition="!Exists('$(VintagestoryDir)/VintagestoryAPI.dll')"
+           Text="Could not locate the Vintage Story installation. Set the VINTAGE_STORY environment variable or pass -p:VintagestoryDir=/path/to/vintagestory." />
+  </Target>
+
+  <ItemGroup>
+    <Reference Include="VintagestoryAPI">
+      <HintPath>$(VintagestoryDir)/VintagestoryAPI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

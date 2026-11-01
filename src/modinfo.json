@@ -1,0 +1,13 @@
+{
+  "type": "code",
+  "modid": "vsmemcleanup",
+  "name": "VS Mem Cleanup",
+  "authors": [ "Techmo" ],
+  "description": "Fixes memory leaks from mods which leave handlers or static references behind when closing a world.",
+  "version": "1.0.0",
+  "side": "universal",
+  "requiredOnClient": false,
+  "dependencies": {
+    "game": ""
+  }
+}
